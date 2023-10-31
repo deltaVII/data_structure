@@ -16,7 +16,9 @@ class Node:
 
 class Add:
     '''
-    Класс определяет статичные методы добавления элементов (post)
+    Класс определяет статичные методы добавления элементов (post).
+    Все методы позволяют добавить сразу несколько элементов.
+    (кроме insert)
     '''
     @staticmethod
     def addstart(NodeList, value: int|list) -> None:
@@ -120,6 +122,9 @@ class Remove:
         NodeList.len -= 1
 
 class Get:
+    '''
+    Класс определяет статичные методы чтения элементов (get)
+    '''
     @staticmethod
     def search(NodeList, value: int) -> bool:
         head = NodeList.head
@@ -145,8 +150,11 @@ class Get:
         return count
 
     @staticmethod
-    def get(NodeList, start: int, end: int=-1, step: int=1) -> int|list: 
+    def get(NodeList, start: int=-1, end: int=-1, step: int=1) -> int|list: 
         head = NodeList.head
+
+        if start == -1:
+            start = NodeList.len - 1
 
         if (step <= 0 or (end <= start and end != -1)
                 or end >= NodeList.len 
@@ -162,18 +170,17 @@ class Get:
 
         for i in range(start):
             head = head.next
-
         for i in range(0, end-start, step):
             mass[i//step] = head.value
-
             for j in range(step):
                 head = head.next
 
         return mass
 
-
-
 class Update:
+    '''
+    Класс определяет статичные методы обновления элементов (put)
+    '''
     @staticmethod
     def update(NodeList, index: int, value: int) -> None:
         head = NodeList.head
@@ -187,10 +194,9 @@ class Update:
 
 class LinkedList(Remove, Add, Get, Update):
     '''
-    Указатель на первый узел
-    использует методы (post, delete)
-    классов Add и Remove соответственно.
-    Абсолютно все методы не допускают отрицательных индексов
+    Указатель на первый узел.
+    Абсолютно все методы не допускают отрицательных индексов.
+    Позволяет использовать методы post, get, delete, put.
     '''
     def __init__(self, head: Node = None) -> None:
         self.head = head
@@ -199,6 +205,7 @@ class LinkedList(Remove, Add, Get, Update):
     def __str__(self) -> str: # WTF!?!?!?!?
         mass = [None] * self.len
         head = self.head
+        
         for i in range(self.len): 
             mass[i] = head.value
             head = head.next
@@ -212,7 +219,7 @@ class LinkedList(Remove, Add, Get, Update):
             head = head.next
         return mass
 
-    def get(self, start: int, end: int=-1, step: int=1) -> int|list:
+    def get(self, start: int=-1, end: int=-1, step: int=1) -> int|list:
         return super().get(self, start, end, step)
 
     def search(self, value: int) -> bool:

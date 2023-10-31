@@ -1,4 +1,4 @@
-from NodeList import LinkedList
+from .NodeList import LinkedList
 
 def test_add():
     node_list = LinkedList()
@@ -37,6 +37,7 @@ def test_get():
         and node_list.count(3) == 3 and node_list.count(100) == 0
         and node_list.get(0) == -1 and node_list.get(0, 5, 2) == [-1, 1, 3]
         and node_list.get(-2) is None and node_list.get(1, 100) is None
+        and node_list.get() == 3
     )
 
 def test_update():
